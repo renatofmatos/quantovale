@@ -1,7 +1,6 @@
 package br.com.renato.quantovale.principal;
 
 import br.com.renato.quantovale.model.DadosMarca;
-import br.com.renato.quantovale.model.Marcas;
 import br.com.renato.quantovale.service.ConsumoAPI;
 import br.com.renato.quantovale.service.ConverteDados;
 
@@ -14,25 +13,25 @@ public class Principal {
     private String json;
     private
     ConsumoAPI consumidor = new ConsumoAPI();
-    public void exibeMenu(){
+    public void exibeMenu() {
         int opcaoMenu = 0;
 
         System.out.println("Escolha uma das buscas abaixo:\n" +
                 "1 - Carros\n" +
                 "2 - Motos\n" +
                 "3 - Caminhões");
-        opcaoMenu =  leitura.nextInt();
+        opcaoMenu = leitura.nextInt();
 
         System.out.println("Opção selecionada: " + opcaoMenu);
 
         switch (opcaoMenu) {
-            case 1 :
+            case 1:
                 enderecoAPI += "carros/marcas";
                 break;
-            case 2 :
+            case 2:
                 enderecoAPI += "motos/marcas";
                 break;
-            case 3 :
+            case 3:
                 enderecoAPI += "caminhoes/marcas";
                 break;
             default:
@@ -41,13 +40,16 @@ public class Principal {
         json = consumidor.obterDados(enderecoAPI);
         ConverteDados conversor = new ConverteDados();
 
+
         System.out.println(json);
-//        try {
-//            Marcas marcas = conversor.obterDados(json, Marcas.class);
-//            System.out.println(marcas);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+
+        try {
+            List<DadosMarca> marcas = conversor.obterDados(json,List.class);
+            System.out.println(marcas);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
 
     }
