@@ -1,15 +1,10 @@
 package br.com.renato.quantovale.principal;
 
-import br.com.renato.quantovale.model.DadosModelo;
-import br.com.renato.quantovale.model.Marca;
-import br.com.renato.quantovale.model.Modelo;
+import br.com.renato.quantovale.model.*;
 import br.com.renato.quantovale.service.ConsumoAPI;
 import br.com.renato.quantovale.service.ConverteDados;
 import com.fasterxml.jackson.core.type.TypeReference;
-import org.springframework.boot.Banner;
-import org.springframework.ui.Model;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -88,9 +83,27 @@ public class Principal {
         codigoModelo = leitura.nextInt();
 
         enderecoAPI += "/" + codigoModelo + "/anos";
-        System.out.println(enderecoAPI);
+        json = consumidor.obterDados(enderecoAPI);
+        List<AvaliacaoVeiculo> avaliacoes = new ArrayList<>();
+        try {
+            List<AnoModelo> anosmodelo = conversor.obterDados(json, new TypeReference<List<AnoModelo>>() {});
+            StringBuilder builder = new StringBuilder();
+            builder.append(enderecoAPI + "/");
 
+            for (AnoModelo ano : anosmodelo ) {
+                enderecoAPI = builder.append(ano.codigo()).toString();
+                json = consumidor.obterDados(enderecoAPI);
+                TypeReference<AvaliacaoVeiculo> avaliacaoVeiculoTypeReference = new TypeReference<>() {};
+                AvaliacaoVeiculo avaliacao = conversor.obterDados(json, avaliacaoVeiculoTypeReference);
+                avaliacoes.add(avaliacao);
+                enderecoAPI = builder.delete(enderecoAPI.length() - ano.codigo().length(), enderecoAPI.length()).toString();
 
+            }
 
+            System.out.println(avaliacoes);
+        }catch (Exception e){
+            System.err.println("Erro ao desserializar os anos do modelos" + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

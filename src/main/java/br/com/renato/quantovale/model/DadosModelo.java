@@ -1,9 +1,7 @@
 package br.com.renato.quantovale.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 public record DadosModelo(
