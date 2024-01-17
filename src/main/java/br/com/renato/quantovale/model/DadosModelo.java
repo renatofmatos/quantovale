@@ -9,6 +9,7 @@ public record DadosModelo(
         Integer codigo,
         @JsonProperty("nome") String nome) {
         public static List<DadosModelo> filtrarPorNome(List<DadosModelo> modelos, String nome ){
+
                 return modelos.stream()
                         .filter(modelo -> modelo.nome().toLowerCase().contains(nome.toLowerCase()))
                         .collect(Collectors.toList());
