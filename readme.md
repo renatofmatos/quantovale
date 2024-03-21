@@ -6,3 +6,8 @@
  ## Tecnologias utilizadas
  - Java
  - Spring
+
+## A implementar
+ - Mostrar por seguimento (camionete, SUV, SEDAN, HATCH, compacto)
+ - Gerar dashboards
+ - Identificar tempo de garantia
